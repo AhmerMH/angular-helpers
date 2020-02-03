@@ -1,0 +1,19 @@
+{
+  "name": "cu-common-utils",
+  "version": "1.0.1",
+  "description": "A package having common functions requeired for JS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "npm",
+    "npm-utils",
+    "common",
+    "common-utils",
+    "utils",
+    "cu"
+  ],
+  "author": "Ahmer Maqsood Hashmi",
+  "license": "MIT"
+}
