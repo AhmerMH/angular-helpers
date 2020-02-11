@@ -1,8 +1,8 @@
-module.exports.isEmpty = object => {
+function isEmpty(object) {
   return object === null || object === undefined || object === '';
-};
+}
 
-module.exports.isEmptyObject = object => {
+function isEmptyObject(object) {
   var isEmpty = false;
   try {
     if (object !== null && object !== undefined) {
@@ -13,151 +13,123 @@ module.exports.isEmptyObject = object => {
     console.log(err);
     return isEmpty;
   }
-};
+}
 
-module.exports.isArray = object => {
+function isArray(object) {
   return Array.isArray(object);
-};
+}
 
-module.exports.getValidArray = (object, path, defaultValue = []) => {
+function getValidObject(object, path, defaultValue = {}) {
   try {
     var pathArr = path.split('.');
-    var temp = 'object';
-    for (var i = 1; i <= pathArr.length; i++) {
-      if (eval(temp) === undefined) {
+    var parent = object;
+    for (var i = 1; i < pathArr.length; i++) {
+      if (parent[pathArr[i]] !== undefined) {
+        parent = parent[pathArr[i]];
+      } else {
         return defaultValue;
       }
-      if (i !== pathArr.length) {
-        temp = temp + '.' + pathArr[i];
-      }
     }
-    return eval(temp);
+    return parent;
   } catch (err) {
     return defaultValue;
   }
-};
+}
 
-module.exports.getValidObject = (object, path, defaultValue = {}) => {
+function getValidArray(object, path, defaultValue = []) {
+  var response = getValidObject(object, path, (defaultValue = []));
+  return isArray(response) ? response : defaultValue;
+}
+
+function getValidString(object, path, defaultValue = '') {
+  var response = getValidObject(object, path, (defaultValue = ''));
+  return typeof response === 'string' ? response : defaultValue;
+}
+
+function getValidNumber(object, path, defaultValue = 0) {
+  var response = getValidObject(object, path, (defaultValue = ''));
+  return typeof response === 'number' ? response : defaultValue;
+}
+
+function mergeArrays(array1, array2) {
   try {
-    var pathArr = path.split('.');
-    var temp = 'object';
-    for (var i = 1; i <= pathArr.length; i++) {
-      if (eval(temp) === undefined) {
-        return defaultValue;
+      if(!array1) {
+        array1 = [];
+      } else if(!isArray(array1)) {
+        array1 = [array1];
       }
-      if (i !== pathArr.length) {
-        temp = temp + '.' + pathArr[i];
-      }
-    }
-    return eval(temp);
+      array2 = array2 ? array2 : [];
+      return array1.concat(array2);
   } catch (err) {
-    return defaultValue;
+    return [];
   }
-};
+}
 
-module.exports.getValidString = (object, path, defaultValue = '') => {
-  try {
-    var pathArr = path.split('.');
-    var temp = 'object';
-    for (var i = 1; i <= pathArr.length; i++) {
-      if (eval(temp) === undefined) {
-        return defaultValue;
-      }
-      if (i !== pathArr.length) {
-        temp = temp + '.' + pathArr[i];
-      }
-    }
-    return eval(temp);
-  } catch (err) {
-    return defaultValue;
-  }
-};
-
-module.exports.getValidNumber = (object, path, defaultValue = 0) => {
-  try {
-    var pathArr = path.split('.');
-    var temp = 'object';
-    for (var i = 1; i <= pathArr.length; i++) {
-      if (eval(temp) === undefined) {
-        return defaultValue;
-      }
-      if (i !== pathArr.length) {
-        temp = temp + '.' + pathArr[i];
-      }
-    }
-    return eval(temp);
-  } catch (err) {
-    return defaultValue;
-  }
-};
-
-module.exports.mergeArrays = (array1, array2) => {
-  try {
-    if (!array1) {
-      if (array2) {
-        array2.forEach(element => {
-          array1.push(element);
-        });
-      }
-    } else {
-      array1 = [];
-      if (array2) {
-        array2.forEach(element => {
-          array1.push(element);
-        });
-      }
-    }
-  } catch (err) {
-    return array1;
-  }
-};
-
-module.exports.cloneObject = (object, defaultValue = {}) => {
+function cloneObject(object, defaultValue = {}) {
   try {
     return JSON.parse(JSON.stringify(object));
   } catch (err) {
     return defaultValue;
   }
-};
+}
 
-module.exports.stringifyJSON = (object, defaultValue = '') => {
+function stringifyJSON(object, defaultValue = '') {
   try {
     return JSON.stringify(object);
   } catch (err) {
     return defaultValue;
   }
-};
+}
 
-module.exports.parseJSON = (object, defaultValue = {}) => {
+function parseJSON(object, defaultValue = {}) {
   try {
     return JSON.parse(object);
   } catch (err) {
     return defaultValue;
   }
-};
+}
 
-module.exports.findObjectInList = (list, compareObject, keyInList, defaultValue=undefined, keyForCompareObject=undefined) => {
+function findObjectInList(
+  list,
+  compareObject,
+  keyInList,
+  defaultValue = undefined,
+  keyForCompareObject = undefined
+) {
   try {
-    list.forEach( element => {
-      if (element[keyInList] === compareObject[keyForCompareObject ? keyForCompareObject : keyInList]) {
-        return element;
-      }
-    });
-    return defaultValue;
+    var element = defaultValue;
+    if(list) { 
+      compareObject = typeof(compareObject) === 'object' ? compareObject[keyForCompareObject ? keyForCompareObject : keyInList] : compareObject;
+      element = list.find( x => x[keyInList] === compareObject); 
+    }
+    return element;
   } catch (err) {
     return defaultValue;
   }
 }
 
-module.exports.findElementInList = (list, value, defaultValue=undefined) => {
+function findElementInList(list, value, defaultValue = undefined) {
   try {
-    list.forEach( element => {
-      if(element === value) {
-        return element;
-      }
-      return defaultValue;
-    });
+    var element = defaultValue;
+    if(list) {
+      element = list.find(x => x === value);
+    }
+    return element;
   } catch (err) {
     return defaultValue;
   }
 }
+
+module.exports.isEmpty = isEmpty;
+module.exports.isEmptyObject = isEmptyObject;
+module.exports.isArray = isArray;
+module.exports.getValidArray = getValidArray;
+module.exports.getValidObject = getValidObject;
+module.exports.getValidString = getValidString;
+module.exports.getValidNumber = getValidNumber;
+module.exports.mergeArrays = mergeArrays;
+module.exports.cloneObject = cloneObject;
+module.exports.stringifyJSON = stringifyJSON;
+module.exports.parseJSON = parseJSON;
+module.exports.findObjectInList = findObjectInList;
+module.exports.findElementInList = findElementInList;

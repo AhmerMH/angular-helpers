@@ -1,6 +1,6 @@
 {
   "name": "cu-common-utils",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A package having common functions requeired for JS.",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,10 @@
     "utils",
     "cu"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AhmerMH/angular-helpers/tree/master/common-utils"
+  },  
   "author": "Ahmer Maqsood Hashmi",
   "license": "MIT"
 }
