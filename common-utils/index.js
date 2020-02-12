@@ -120,6 +120,28 @@ function findElementInList(list, value, defaultValue = undefined) {
   }
 }
 
+function replaceAll(text, regex, replacement='', defaultValue='') {
+  try {
+    if(text) {
+      return (text.toString()).split(regex).join(replacement);
+    }
+    return defaultValue;
+  } catch(err) {
+    return defaultValue;
+  }
+}
+
+function indexOf(text, searchText, startIndex = 0, defaultValue = -1) {
+  try {
+    var index = text.indexOf(searchText, startIndex);
+    return index;
+  } catch (err) {
+    return defaultValue;
+  }
+}
+
+
+
 module.exports.isEmpty = isEmpty;
 module.exports.isEmptyObject = isEmptyObject;
 module.exports.isArray = isArray;
@@ -133,3 +155,5 @@ module.exports.stringifyJSON = stringifyJSON;
 module.exports.parseJSON = parseJSON;
 module.exports.findObjectInList = findObjectInList;
 module.exports.findElementInList = findElementInList;
+module.exports.replaceAll = replaceAll;
+module.exports.indexOf = indexOf;

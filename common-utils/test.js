@@ -33,4 +33,9 @@ var list1 = [ {x:1}, {x:2}, {x:3}];
 var obj = {x: 3};
 var obj1 = {y: 3};
 // console.log(cu.findObjectInList(list1,obj,'x'));
-console.log(cu.findObjectInList(list1,obj1,'x',undefined, 'y'));
+// console.log(cu.findObjectInList(list1,obj1,'x',undefined, 'y'));
+
+
+var s1 = "A test string";
+console.log(cu.replaceAll(undefined,' ','\t', 'empty'));
+console.log(cu.indexOf(undefined,undefined));
